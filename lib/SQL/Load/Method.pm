@@ -2,7 +2,6 @@ package SQL::Load::Method;
 
 use strict;
 use warnings;
-use Carp;
 use SQL::Load::Util qw/
     parse
     name_list

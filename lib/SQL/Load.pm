@@ -3,10 +3,6 @@ package SQL::Load;
 use strict;
 use warnings;
 use Carp;
-use String::CamelCase qw/
-    camelize 
-    decamelize
-/;
 use SQL::Load::Util qw/
     name_list 
     remove_extension
