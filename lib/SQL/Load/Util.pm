@@ -77,3 +77,91 @@ sub trim {
 }
 
 1;
+
+__END__
+
+=encoding utf8
+ 
+=head1 NAME
+ 
+SQL::Load::Util
+
+=head1 SYNOPSIS
+
+    use SQL::Load::Util qw/
+        name_list 
+        parse
+        remove_extension
+        trim
+    /;
+    
+    my $name_list = name_list('foo');
+    
+    my %parse = (parse(SQL));
+    
+    my $remove_extension = remove_extension('file.sql');
+    
+    my $trim = trim('   baz   ');
+
+=head1 DESCRIPTION
+
+L<SQL::Load::Util> contains useful methods to L<SQL::Load>.
+
+=head1 METHODS
+
+=head2 name_list
+
+    # ['FindAll', 'find_all', 'find-all']
+    my $name_list = name_list('find_all');
+
+returns an array or arrayref with three formats: CamelCase, snake_case and kebab-case.
+
+=head2 parse
+
+    my $data = q{
+        -- [find]
+        SELECT * FROM foo WHERE id = ?;
+        
+        -- [find-all]
+        SELECT * FROM foo ORDER BY id DESC;
+    };
+    
+    # [
+    #   'find',
+    #   'SELECT * FROM foo WHERE id = ?;',
+    #   'find-all',
+    #   'SELECT * FROM foo ORDER BY id DESC;'
+    # ]
+    my $parse = parse($data);
+    
+returns an array or arrayref with name in the even position and SQL in the odd position.
+
+=head2 remove_extension
+
+    # users
+    my $remove_extension = remove_extension('users.sql')
+
+remove the extension .sql 
+
+=head2 trim
+
+    # foo
+    my $trim = trim('  foo   ');
+
+remove spaces at the begin and end
+
+=head1 SEE ALSO
+ 
+L<SQL::Load>.
+ 
+=head1 AUTHOR
+ 
+Lucas Tiago de Moraes, C<lucastiagodemoraes@gmail.com>.
+ 
+=head1 COPYRIGHT AND LICENSE
+ 
+This software is copyright (c) 2022 by Lucas Tiago de Moraes.
+ 
+This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.
+ 
+=cut

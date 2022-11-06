@@ -6,8 +6,35 @@ use SQL::Load::Util qw/
     trim
 /;
 
+my $name_list_1 = name_list('find-by-username');
+for my $name (@$name_list_1) {
+    like(
+        $name, 
+        qr/(find-by-username|find_by_username|FindByUsername)/, 
+        'Test name (' . $name . ') is equal'
+    );
+}
+
+my $name_list_2 = name_list('get_all_users');
+for my $name (@$name_list_2) {
+    like(
+        $name, 
+        qr/(get-all-users|get_all_users|GetAllUsers)/, 
+        'Test name (' . $name . ') is equal'
+    );
+}
+
+my $name_list_3 = name_list('DeleteByUsername');
+for my $name (@$name_list_3) {
+    like(
+        $name, 
+        qr/(delete-by-username|delete_by_username|DeleteByUsername)/, 
+        'Test name (' . $name . ') is equal'
+    );
+}
+
 my $sql_1 = q{
--- #foo
+-- # foo
 SELECT * FROM foo;
 
 -- [bar]
@@ -58,5 +85,23 @@ LIMIT
 
 my %parse_3 = (parse($sql_3));
 is($parse_3{1}, trim($sql_3), 'Test if default is same sql');
+
+my $remove_extension_1 = remove_extension('path/users.sql');
+is($remove_extension_1, 'path/users', 'Test removed extension from file name (path/users.sql)');
+
+my $remove_extension_2 = remove_extension('articles.SQL');
+is($remove_extension_2, 'articles', 'Test removed extension from file name (articles.SQL)');
+
+my $remove_extension_2 = remove_extension('contacts.Sql');
+is($remove_extension_2, 'contacts', 'Test removed extension from file name (contacts.Sql)');
+
+my $trim_1 = trim('  foo   ');
+is($trim_1, 'foo', 'Test remove spaces at start and end');
+
+my $trim_2 = trim('  bar');
+is($trim_2, 'bar', 'Test remove spaces at start');
+
+my $trim_2 = trim('baz   ');
+is($trim_2, 'baz', 'Test remove spaces at end');
 
 done_testing;

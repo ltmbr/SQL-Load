@@ -86,7 +86,7 @@ sub first {
 sub last {
     my $self = shift;
     
-    return $self->{_list}->[scalar(@{$self->{_list}})];
+    return $self->{_list}->[-1];
 }
 
 sub replace {
@@ -112,3 +112,114 @@ sub replace {
 }
 
 1;
+
+__END__
+
+=encoding utf8
+ 
+=head1 NAME
+ 
+SQL::Load::Method
+
+=head1 SYNOPSIS
+
+    my $sql = q{
+        -- [find]
+        SELECT * FROM users WHERE id = ?;
+        
+        -- [find-by-email]
+        SELECT * FROM users WHERE email = ?;        
+    };
+
+    my $method = SQL::Load::Method->new($sql);
+    
+    # SELECT * FROM users WHERE id = ?;
+    print $method->name('find');
+    
+    # SELECT * FROM users WHERE email = ?;
+    print $method->name('find-by-email');
+    
+=head1 DESCRIPTION
+
+L<SQL::Load::Method> contains useful methods to L<SQL::Load>, 
+method load from L<SQL::Load> returns a reference.
+
+=head1 METHODS
+
+=head2 new
+
+    my $method = SQL::Load::Method->new($sql);
+
+construct a new L<SQL::Load::Method>.
+
+=head2 default
+
+    $method->default;
+    
+returns the first SQL or SQL named as default.
+
+=head2 name
+
+    # -- # name
+    # -- [name]
+    # -- (name)
+
+    $method->name('name');
+    
+returns SQL by name.
+  
+=head2 next
+
+    while (my $sql = $method->next) {
+        print $sql;
+    }
+    
+returns the next SQL like an iterator.
+
+=head2 at
+
+    $method->at(1);
+    
+returns the SQL by position in the list, starting with 1.
+
+
+=head2 first
+
+    $method->first;
+    
+returns first the SQL.
+
+=head2 last
+
+    $method->last;
+    
+returns last the SQL.
+
+=head2 replace
+
+    $method->replace('value', 'new_value')->name('find');
+    $method->replace(value => 'new_value')->first;
+    $method->replace('value1', 'new_value1', 'value2', 'new_value2')->at(1);
+    $method->replace(value1 => 'new_value1', value2 => 'new_value2')->last;
+    
+replaces values and returns the reference itself.
+
+=head1 SEE ALSO
+ 
+L<SQL::Load>.
+ 
+=head1 AUTHOR
+ 
+Lucas Tiago de Moraes, C<lucastiagodemoraes@gmail.com>.
+ 
+=head1 COPYRIGHT AND LICENSE
+ 
+This software is copyright (c) 2022 by Lucas Tiago de Moraes.
+ 
+This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.
+ 
+=cut
+
+
+    
+    
