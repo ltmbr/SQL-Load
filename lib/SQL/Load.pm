@@ -123,7 +123,7 @@ sub _generate_key {
 sub _get_tmp {
     my ($self, $key) = @_;
     
-    return $self->{_data}->{$key}->{content} 
+    return SQL::Load::Method->new($self->{_data}->{$key}->{content}) 
         if exists $self->{_data}->{$key}->{content};
     
     return;
