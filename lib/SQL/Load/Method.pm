@@ -103,17 +103,18 @@ sub reset {
     
     my @data = @{$self->{_data}};
     
+    # reset hash
     my %hash = @data;
     $self->{_hash} = \%hash;
     
+    # reset list
     my @list;
-    
     for (my $i = 0; $i < scalar(@data); $i += 2) {        
         push(@list, $data[$i + 1]);
     }  
-    
     $self->{_list} = \@list; 
     
+    # reset next
     $self->{_next} = 0;
     
     return $self;
@@ -233,6 +234,12 @@ returns last the SQL.
     $method->replace(value1 => 'new_value1', value2 => 'new_value2')->last;
     
 replaces values and returns the reference itself.
+
+=head2 reset
+
+    $method->reset;
+    
+reset to SQL original and returns the reference itself.
 
 =head1 SEE ALSO
  
