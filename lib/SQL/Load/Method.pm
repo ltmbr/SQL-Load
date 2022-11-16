@@ -8,28 +8,15 @@ use SQL::Load::Util qw/
 /;
 
 sub new {
-    my ($class, $content) = @_;
+    my ($class, $content) = @_;  
     
-    my @data = parse($content);
-    my %hash = @data;
-    my %keys;
-    my @list;
-    
-    for (my $i = 0; $i < scalar(@data); $i += 2) {
-        my $name = $data[$i];
-        my @name_list = name_list($name);
-        
-        for (@name_list) {
-            $keys{$_} = $name;
-        }
-        
-        push(@list, $data[$i + 1]);
-    }    
+    my ($data, $hash, $keys, $list) = $class->_parse($content);
     
     my $self = {
-        _hash => \%hash,
-        _keys => \%keys,
-        _list => \@list,
+        _data => $data,
+        _hash => $hash,
+        _keys => $keys,
+        _list => $list,
         _next => 0
     };
     
@@ -109,6 +96,49 @@ sub replace {
     }
     
     return $self;
+}
+
+sub reset {
+    my $self = shift;
+    
+    my @data = @{$self->{_data}};
+    
+    my %hash = @data;
+    $self->{_hash} = \%hash;
+    
+    my @list;
+    
+    for (my $i = 0; $i < scalar(@data); $i += 2) {        
+        push(@list, $data[$i + 1]);
+    }  
+    
+    $self->{_list} = \@list; 
+    
+    $self->{_next} = 0;
+    
+    return $self;
+}
+
+sub _parse {
+    my ($self, $content) = @_;
+    
+    my @data = parse($content);
+    my %hash = @data;
+    my %keys;
+    my @list;
+    
+    for (my $i = 0; $i < scalar(@data); $i += 2) {
+        my $name = $data[$i];
+        my @name_list = name_list($name);
+        
+        for (@name_list) {
+            $keys{$_} = $name;
+        }
+        
+        push(@list, $data[$i + 1]);
+    }
+    
+    return (\@data, \%hash, \%keys, \@list);    
 }
 
 1;
