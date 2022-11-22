@@ -2,6 +2,10 @@
  
 SQL::Load - This module is a simple SQL file loader
 
+# VERSION
+
+0.04
+
 # SYNOPSIS
 
 File SQL: users.sql
