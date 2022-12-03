@@ -32,14 +32,14 @@ sub load {
     
     my $name;
     
-    if ($file_name =~ /^([\w\-\.\/]+)\#([\w\-]+)$/) {
+    if ($file_name =~ /^([\w\-\/\.]+)\#([\w\-]+)$/) {
         $file_name = remove_extension($1);
         $name      = $2; 
     } else {
         $file_name = remove_extension($file_name);
     }
     
-    if ($file_name && $file_name =~ /^[\w-]+$/) {
+    if ($file_name && $file_name =~ /^[\w\-\/]+$/) {
         # if true not get tmp
         unless ($reload) {
             # check if exist the key to get tmp
