@@ -4,7 +4,7 @@ SQL::Load - This module is a simple SQL file loader
 
 # VERSION
 
-0.04
+0.05
 
 # SYNOPSIS
 
@@ -47,6 +47,15 @@ Intended to separate SQL from Perl code, this module provides some functions tha
     my $sql_load = SQL::Load->new($path);
 
 Construct a new L<SQL::Load>, passing the folder path is required.
+The end param is optional, default returns SQLs with a semicolon in the end, for example using break line:
+
+    my $sql = SQL::Load->new('/home/user/sql/directory/path', "\n");
+
+    my $users = $sql->load('users');
+     
+    print $users->name('find');     # SELECT * FROM users WHERE id = ?\n
+    print $users->name('find-all'); # SELECT * FROM users ORDER BY id DESC\n
+    print $users->name('insert');   # INSERT INTO users (name, login, password) VALUES (?, ?, ?)\n
 
 ## load
 
