@@ -44,7 +44,7 @@ Intended to separate SQL from Perl code, this module provides some functions tha
 
 ## new
 
-    my $sql_load = SQL::Load->new($path);
+    my $sql_load = SQL::Load->new($path, $end);
 
 Construct a new L<SQL::Load>, passing the folder path is required.
 The end param is optional, default returns SQLs with a semicolon in the end, for example using break line:
@@ -81,7 +81,7 @@ Reload to get content directly from the file without getting from the tmp from r
     
 ## Named SQL
 
-B<For you to name the SQL has 3 ways:>
+For you to name the SQL has 3 ways:
 
     -- # NAME
     -- (NAME)
